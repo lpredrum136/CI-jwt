@@ -31,7 +31,9 @@ class Post_model extends CI_Model
   {
     $this->db->insert('posts', $form_data);
     $post_id = $this->db->insert_id();
-    $query = $this->db->get_where('posts', ['id' => $post_id]);
+    $this->db->select('posts.id, category_id, title, body, author, posts.created_at, categories.id AS base_category_id, name');
+    $this->db->join('categories', 'categories.id = posts.category_id');
+    $query = $this->db->get_where('posts', ['posts.id' => $post_id]);
     return $query->row_array();
   }
 
