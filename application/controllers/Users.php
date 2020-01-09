@@ -8,37 +8,35 @@ class Users extends CI_Controller
   {
     parent::__construct();
     $this->obj_jwt = new CreatorJwt();
+
+    // Header
+    header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+    header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
   }
 
-  # GENERATE TOKEN
-  public function create_token()
+  // REGISTER USER
+  public function register()
   {
-    $token_data = [
-      'id' => '5',
-      'name' => 'Henry',
-      'privilege' => 'admin'
+    $form_data = json_decode(file_get_contents('php://input'));
+
+    // Encrypt password
+    $enc_password = md5($form_data->password);
+
+    // Create user
+    $form_data_to_send = [
+      'username' => $form_data->username,
+      'password' => $enc_password,
+      'privilege' => $form_data->privilege
     ];
 
-    $jwt_token = $this->obj_jwt->generate_token($token_data);
+    // Get back user just created
+    $user_info = $this->user_model->register($form_data_to_send);
 
-    echo json_encode(['token' => $jwt_token]);
-  }
+    // Create JWT token
+    $user_token = $this->obj_jwt->generate_token(['user_id' => $user_info['id']]);
 
-  # GET DATA FROM TOKEN
-  public function check_token()
-  {
-    $received_token = $this->input->request_headers();
-    try {
-      $jwt_data = $this->obj_jwt->decode_token($received_token['Authorization']);
-      echo json_encode($jwt_data);
-    } catch (Exception $exception) {
-      http_response_code('401');
-      echo json_encode([
-        'status' => false,
-        'message' => $exception->getMessage()
-      ]);
-      exit;
-    }
+    echo json_encode(['token' => $user_token]);
   }
 }

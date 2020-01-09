@@ -55,8 +55,9 @@ $route['post/delete/(:any)'] = 'posts/delete/$1';
 $route['post/(:any)'] = 'posts/view/$1';
 $route['posts'] = 'posts/index';
 
-$route['users/login'] = 'users/create_token';
-$route['users/check'] = 'users/check_token';
+$route['users/login'] = 'auth/login';
+$route['users/auth'] = 'auth/authenticate';
+$route['users/register'] = 'users/register';
 
 $route['(:any)'] = 'pages/view/$1';
 

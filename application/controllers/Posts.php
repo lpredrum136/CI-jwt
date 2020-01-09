@@ -18,11 +18,6 @@ class Posts extends CI_Controller
       // Turn to JSON and output
       echo json_encode($result);
     } else echo json_encode(['message' => 'No Posts Found']);
-
-
-    /* $this->load->view('templates/header');
-    $this->load->view('posts/index', $data);
-    $this->load->view('templates/footer'); */
   }
 
   # GET ONE POST BY ID
