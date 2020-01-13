@@ -6,7 +6,7 @@
       show
       variant="danger"
     >Unauthorised</b-alert>
-    <b-form v-else @submit="onSubmit">
+    <b-form v-else-if="myPost.post !== null" @submit="onSubmit">
       <b-alert variant="info" show>Edit your post</b-alert>
       <b-form-group>
         <b-form-input
