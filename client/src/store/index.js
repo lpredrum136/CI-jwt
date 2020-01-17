@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import post from './modules/post';
 import auth from './modules/auth';
+import app from './modules/app';
+import oauth from './modules/oauth';
 
 // Load Vuex
 Vue.use(Vuex);
@@ -10,7 +12,9 @@ Vue.use(Vuex);
 const myStore = new Vuex.Store({
 	modules: {
 		myPost: post,
-		myAuth: auth
+		myAuth: auth,
+		myApp: app,
+		myOAuth: oauth
 	}
 });
 

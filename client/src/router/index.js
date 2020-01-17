@@ -9,6 +9,9 @@ import PostEdit from '../components/posts/PostEdit.vue';
 import Register from '../components/auth/Register.vue';
 import Login from '../components/auth/Login.vue';
 
+import AppRegister from '../components/apps/Register.vue';
+import AppAuthorise from '../components/oauth/AppAuthorise.vue';
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -56,6 +59,16 @@ const routes = [
 			if (localStorage.token) next('/posts');
 			else next();
 		}
+	},
+	{
+		path: '/app/register',
+		name: 'AppRegister',
+		component: AppRegister
+	},
+	{
+		path: '/app/authorise',
+		name: 'AppAuthorise',
+		component: AppAuthorise
 	}
 ];
 

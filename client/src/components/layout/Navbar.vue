@@ -26,6 +26,7 @@
           <template v-else>
             <b-nav-item to="/register">Register</b-nav-item>
             <b-nav-item to="/login">Login</b-nav-item>
+            <b-nav-item to="/app/register">REST API</b-nav-item>
           </template>
         </b-navbar-nav>
       </b-collapse>

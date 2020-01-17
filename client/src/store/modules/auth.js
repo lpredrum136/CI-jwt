@@ -1,6 +1,8 @@
 import axios from 'axios';
 import router from '../../router';
 import setAuthToken from '../../utils/setAuthToken';
+import generateOAuthCode from '../../utils/generateOAuthCode';
+import myStore from '../../store';
 
 const state = {
 	token: localStorage.getItem('token'),
@@ -41,10 +43,32 @@ const actions = {
 	// Login user
 	async login({ commit }, formData) {
 		try {
-			const res = await axios.post('/users/login', formData);
+			const { username, password, isOAuthAuthorise } = formData;
+			const res = await axios.post('/users/login', { username, password });
 			commit('LOGIN_SUCCESS', res.data);
 			actions.loadUser({ commit });
-			router.push('/posts');
+
+			// If come from user login, perform normal operations. Else, perform oauth.
+			if (!isOAuthAuthorise.check) router.push('/posts');
+			else {
+				try {
+					console.log(isOAuthAuthorise.scopes);
+					const response = await axios.post(
+						'/api/app/generate_authorisation_code',
+						{
+							client_id: isOAuthAuthorise.client_id,
+							redirect_uri: isOAuthAuthorise.redirect_uri,
+							scopes: isOAuthAuthorise.scopes,
+							username // to know who I am giving the client access to
+						}
+					);
+					// Redirect back to third party app with the code
+					window.location.href = `${myStore.state.myOAuth.app.redirect_uri}?authorisation_code=${response.data.authorisation_code}`;
+					console.log(response.data);
+				} catch (error) {
+					console.log(error.response.data);
+				}
+			}
 		} catch (error) {
 			console.log(error.response.data);
 			commit('LOGIN_FAIL');

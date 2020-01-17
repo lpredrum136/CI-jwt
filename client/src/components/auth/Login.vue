@@ -46,7 +46,13 @@ export default {
     ...mapActions(['login']),
     onSubmit(event) {
       event.preventDefault();
-      this.login({ username: this.username, password: this.password });
+      this.login({
+        username: this.username,
+        password: this.password,
+        isOAuthAuthorise: {
+          check: false
+        }
+      });
     }
   }
 };
