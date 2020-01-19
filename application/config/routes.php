@@ -65,8 +65,15 @@ $route['default_controller'] = 'pages/view';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-// REST API ROUTES WITH OAUTH
+// REST API ROUTES WITH OAUTH: Authorisation code flow
 $route['api/app/register'] = 'api/appregister/register';
 $route['api/app/authorise'] = 'api/appauthorise/authorise';
 $route['api/app/generate_authorisation_code'] = 'api/appauthorise/generate_authorisation_code';
 $route['api/app/exchange_token'] = 'api/appauthorise/generate_token';
+
+// REST API ROUTES WITH OAUTH: Resource Owner Password Credentials Flow
+$route['api/ropc-oauth'] = 'api/ropcauthorise/generate_token';
+
+// REST API SERVICE ROUTES
+$route['api/posts/create'] = 'service-api/posts/create';
+$route['api/posts'] = 'service-api/posts/index';

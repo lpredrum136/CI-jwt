@@ -48,7 +48,7 @@ class Auth extends CI_Controller
 
     // If there is no token attached to headers
     if (!isset($headers['x-auth-token'])) {
-      http_response_code('401');
+      http_response_code(401);
       echo json_encode([
         'status' => false,
         'message' => 'No token, authorisation denied'
@@ -60,7 +60,7 @@ class Auth extends CI_Controller
         $user_info = $this->user_model->find_user_by_id($jwt_data['user_id']);
         echo json_encode($user_info);
       } catch (Exception $exception) {
-        http_response_code('401');
+        http_response_code(401);
         echo json_encode([
           'status' => false,
           'message' => $exception->getMessage()

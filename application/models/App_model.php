@@ -41,14 +41,23 @@ class App_model extends CI_Model
   // Get app (to check if there is an app registered)
   public function get_app_for_token_generation($form_data)
   {
-    $query = $this->db->get_where('apps', [
-      'client_id' => $form_data->client_id,
-      'client_secret' => $form_data->client_secret,
-      'authorisation_code' => $form_data->authorisation_code,
-      'redirect_uri' => $form_data->redirect_uri,
-      'scopes' => $form_data->scopes
-    ]);
-
+    if (isset($form_data->authorisation_code)) {
+      $query = $this->db->get_where('apps', [
+        'client_id' => $form_data->client_id,
+        'client_secret' => $form_data->client_secret,
+        'authorisation_code' => $form_data->authorisation_code,
+        'redirect_uri' => $form_data->redirect_uri,
+        'scopes' => $form_data->scopes
+      ]);
+    } else {
+      $query = $this->db->get_where('apps', [
+        'client_id' => $form_data->client_id,
+        'client_secret' => $form_data->client_secret,
+        'redirect_uri' => $form_data->redirect_uri,
+        'scopes' => $form_data->scopes
+      ]);
+    }
+    
     if ($query->num_rows() == 1) return $query->row_array();
     else return false;
   }
